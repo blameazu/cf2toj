@@ -9,6 +9,7 @@ import xml.etree.ElementTree as ET
 import collections
 import random
 import string
+from htmltopdf import html_to_pdf
 
 from function import makedirs, copyfile, rmdir, run_and_wait_process
 
@@ -149,10 +150,13 @@ async def main():
         if os.path.exists(statement_path):
             for filepath in os.listdir(statement_path):
                 if filepath == "problem.html":
+                    html_output = os.path.join(statement_path, 'problem.html')
+                    pdf_output = os.path.join(tmp_outputpath, 'http', 'cont.pdf')
                     copyfile(
                         (statement_path, 'problem.html'),
                         (tmp_outputpath, 'http', 'cont.html')
                     )
+                    html_to_pdf(html_output, pdf_output)
                 else:
                     copyfile(
                         (statement_path, filepath),
